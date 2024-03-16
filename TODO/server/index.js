@@ -12,13 +12,36 @@ app.get("/",(req,res) => {
 
 app.listen(port)
 
-//app.get('/',(req: Request, res: response))
+app.get('/',(req, res) => {
+    const pool = openDb()
+    pool.query('Select * FROM task', (error, result) => {
+        if (error) {
+            res.status(500).json({error: error.message})
+        }
+        res.status(200).json(result.row)
+    })
+})
 
+const openDb = () => {  //make sure it works properrly!!!!
+    const pool = new Pool ({
+        user: "postgres",
+        host: "localhost",
+        database: "todo",
+        password: "2003",
+        port: 5432
+    })
+    return pool
+}
 
-
-
-//app.post("/new",(req,res) => {
-    //const pool = openDb()
-
-    //pool.query
-//})
+app.post("/new",(req,res) => {
+    const pool = openDb()
+    pool.query('insert into task (description) values ($1) returning')
+    [req.body.description],
+    (error,result) => {
+        if (error) {
+            res.status(500).json({error: error.message})
+        } else {
+            res.status(200).json({id: result.row[0].id})
+        }
+    }
+})
