@@ -37,16 +37,15 @@ app.post('/new', (req, res) => {
     const pool = openDb();
 
     pool.query(
-        'INSERT INTO task (description) VALUES ($1) RETURNING id',
+        'insert  into task (description) values ($1) returning *',
         [req.body.description],
         (error, result) => {
             if (error) {
-                res.status(500).json({ error: error.message });
+                res.status(500).json({ error : error.message });
             } else {
-                res.status(200).json({ id: result.rows[0].id });
+                res.status(200).json({ id : result.rows[0].id });
             }
-        }
-    );
+        });
 });
 
 app.listen(port)
