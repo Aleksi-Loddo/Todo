@@ -14,7 +14,7 @@ const openDb = () => {
         host: "localhost",
         database: "todo",
         password: "2003",
-        port: 5432
+        port: 5432,
     });
     return pool;
 };
@@ -32,19 +32,19 @@ app.get("/", (req, res) => {
 
 app.post('/new', (req, res) => {
     const pool = openDb();
-
     pool.query(
-        'INSERT INTO task (description) VALUES ($1) RETURNING *',
+        'INSERT INTO task (description) VALUES ($1) returning *',
         [req.body.description],
         (error, result) => {
             if (error) {
+                console.log(error)
                 res.status(500).json({ error: error.message });
             } else {
+                console.log('result ', result )
                 res.status(200).json({ id: result.rows[0].id });
+                //console.log(result)
             }
         });
 });
 
-app.listen(port, () => {
-    console.log(`Server is listening on port ${port}`);
-});
+app.listen(port)
