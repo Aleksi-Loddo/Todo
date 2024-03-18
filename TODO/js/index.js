@@ -12,31 +12,23 @@ const renderTask = (task) => {
     li.innerHTML = task;
     list.append(li);
 }
-input.addEventListener("keypress", (event) => {
-    if (event.key === "Enter") {
-        event.preventDefault();
-        const task = input.value.trim();
-        if (task !== "") {
-            savetask(task).then((json) => {
-            renderTask(task);
-            input.value = "";
-        })
-     }
-   }
-})
+
 
 const getTasks = async () => {
     try {
         const response = await fetch(BACKEND_ROOT_URL);
         const json = await response.json();
-        json.forEach (task => {
+        console.log(json); // Log the response to see its structure
+        json.forEach( task => {
             renderTask(task.description);
-        });
+        }) // Commented out for debugging
         input.disabled = false;
-    }   catch(error){
-        alert("Error  retrieving tasks " + error.message);   
+    } catch(error) {
+        console.log(error);
+        alert("Error retrieving tasks " + error.message);   
     }
-} 
+}
+
 const savetask = async (task) => {
         try {
             const json = JSON.stringify({description: task});
@@ -53,7 +45,6 @@ const savetask = async (task) => {
           } 
         }
 
- getTasks();
 
 input.addEventListener("keypress",(event) => {
     if (event.key === "Enter"){
@@ -68,5 +59,20 @@ input.addEventListener("keypress",(event) => {
         }
     }
 });
+
+input.addEventListener("keypress", (event) => {
+    if (event.key === "Enter") {
+        event.preventDefault();
+        const task = input.value.trim();
+        if (task !== "") {
+            savetask(task).then((json) => {
+            renderTask(task);
+            input.value = "";
+        })
+     }
+   }
+})
+
+getTasks();
 
    
