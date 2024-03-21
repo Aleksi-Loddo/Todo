@@ -87,8 +87,9 @@ input.addEventListener('keypress', (event) => {
             todos.addTask(task).then((task) => {
                 renderTask(task);
                 input.value = '';
+                input.focus();
             })
-           input.focus();
+           
         }
     }
  })
