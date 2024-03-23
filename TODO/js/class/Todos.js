@@ -61,6 +61,8 @@ class Todos {
 
     removeTask = (id) => {
         return new Promise(async(resolve, reject) => {
+            console.log(id);//debuging line
+            console.log(this.#backend_url + "/delete/" + id);//debuging line
             fetch(this.#backend_url + "/delete/" + id, {
                 method: 'DELETE'
             })
