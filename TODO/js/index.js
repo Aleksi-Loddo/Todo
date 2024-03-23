@@ -13,7 +13,7 @@ input.disabled = true;
 
 const renderTask = (task) => {
     const li = document.createElement('li');
-    console.log(task)
+    console.log(task)//debuging line
     li.setAttribute('class', 'list-group-item');
     li.setAttribute('data-key',task.getId().toString())
     //li.innerHTML = task.getText();
@@ -30,7 +30,7 @@ const renderSpan = (li,text) => {
 const renderLink = (li,id) => { 
     const a = li.appendChild(document.createElement('a'));
     a.innerHTML = '<i class="bi bi-trash"></i>';
-    a.setAttribute('style', 'float: right; cursor: pointer');
+    a.setAttribute('style', 'float: right; cursor: pointer;');
     a.addEventListener('click', (event) => {
         todos.removeTask(id).then((remove_id) => {
             const li_to_remove = document.querySelector(`[data-key="${remove_id}"]`);
@@ -56,7 +56,7 @@ const getTasks = () => {
             alert(error)
       })  
 }
-
+/*
 const saveTask = async (task) => {
     try {
         const json = JSON.stringify({description: task});
@@ -73,7 +73,7 @@ const saveTask = async (task) => {
         alert('Error saving task#' + error.message);
     }
 }
-
+*/
 
 
 
@@ -84,7 +84,7 @@ input.addEventListener('keypress', (event) => {
     if(event.key === 'Enter') {
         event.preventDefault();
         const task = input.value.trim();
-        if (task !=='') {
+        if (task !== '') {
             todos.addTask(task).then((task) => {
                 renderTask(task);
                 input.value = '';
